@@ -1,6 +1,6 @@
 package com.example.Form_Service.services;
 
-import com.example.Form_Service.ResourceNotFoundException;
+import com.example.Form_Service.exception.ResourceNotFoundException;
 import com.example.Form_Service.model.Form;
 import com.example.Form_Service.repository.FormRepository;
 import org.springframework.stereotype.Service;

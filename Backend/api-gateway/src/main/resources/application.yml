@@ -1,35 +1,27 @@
-## Give the gateway a name
-#spring.application.name=api-gateway
-#
-## Run the gateway on a different port
-#server.port=8082
-#
-## The location of your Eureka Server
-#eureka.client.service-url.defaultZone=http://localhost:8761/eureka/
-#
-## --- Gateway Routing Configuration for Reactive Gateway ---
-#spring.cloud.gateway.routes[0].id=form-service-route
-#spring.cloud.gateway.routes[0].uri=lb://form-service
-#spring.cloud.gateway.routes[0].predicates[0]=Path=/api/forms/**
-#spring.cloud.gateway.routes[0].filters[0]=RewritePath=/api/forms/(?<segment>.*), /api/v1/forms/${segment}
-
-
 server:
   port: 8082
 
 spring:
   application:
     name: api-gateway
-
   cloud:
     gateway:
       routes:
+        # Route for the form-service
         - id: form-service-route
           uri: lb://form-service
           predicates:
             - Path=/api/forms/**
           filters:
             - RewritePath=/api/forms(?<segment>/?.*), /api/v1/forms${segment}
+        
+        # ADD THIS ROUTE for the user-response-service
+        - id: user-response-service-route
+          uri: lb://user-response-service
+          predicates:
+            - Path=/api/responses/**
+          filters:
+            - RewritePath=/api/responses(?<segment>/?.*), /api/v1/responses${segment}
 
 eureka:
   client:
